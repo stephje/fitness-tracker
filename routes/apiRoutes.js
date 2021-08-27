@@ -12,4 +12,10 @@ router.get('/workouts', async (req, res) => {
     }
 });
 
+router.get('/workouts/:id', async (req, res) => {
+        let workout = await Workout.find({ '_id': req.params.id });
+        res.json(workout);
+});
+
+
 module.exports = router;
