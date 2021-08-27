@@ -1,3 +1,7 @@
+
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -17,7 +21,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
 });
 
 //Routing middleware
-app.use(require("./routes/api.js"));
+app.use(require("./routes"));
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
