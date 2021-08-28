@@ -16,7 +16,7 @@ router.get('/workouts', async (req, res) => {
         );
         return res.json(workouts);
     } catch (error) {
-        res.status(400).json(error);
+        res.status(400).send(error);
     }
 });
 
@@ -36,7 +36,7 @@ router.get('/workouts/range', async (req, res) => {
         );
         return res.json(lastSevenWorkouts);
     } catch (error) {
-        res.status(400).json(error);
+        res.status(400).send(error);
     }
 });
 
@@ -46,7 +46,7 @@ router.post("/workouts", async (req, res) => {
         let newWorkout = await db.Workout.create(req.body);
         res.send(newWorkout);
     } catch (error) {
-        res.status(400).json(error);
+        res.status(400).send(error);
     }
   });
 
@@ -59,8 +59,8 @@ router.put("/workouts/:id", async (req, res) => {
             );
         res.json(updatedWorkout);
     } catch (error) {
-        res.status(400).json(error);
+        res.status(400).send(error);
     }
 });
 
-module.exports = router;
+module.exports = router; 
