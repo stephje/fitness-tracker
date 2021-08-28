@@ -7,7 +7,15 @@ const Workout = require("../models/Workout");
 // NOTE: This actually serves the fetch in the "getLastWorkout" function in /public/api.js file as well. All workouts are fetched in that function and then the last one in the array is returned. 
 router.get('/workouts', async (req, res) => {
     try {
-        let workouts = await Workout.find({});
+        // This must be an aggregate because Total Workout Duration is expected on teh main page
+        let workouts = await Workout.aggregate(
+            [
+                {$match: {}},
+                {$addFields: {
+                    totalDuration: {$sum: '$exercises.duration'}
+                }}
+            ]  
+        );
         return res.json(workouts);
     } catch (error) {
         res.status(400).json(error);
@@ -17,13 +25,12 @@ router.get('/workouts', async (req, res) => {
 //Get workouts in range
 router.get('/workouts/range', async (req, res) => {
     try {
-        lastSevenWorkouts = await Workout.aggregate(
+        let lastSevenWorkouts = await Workout.aggregate(
             [
                 {$match: {}},
                 {$sort: {day:-1}},
                 {$limit: 7},
                 {$addFields: {
-                    _id: '$_id',
                     totalDuration: {$sum: '$exercises.duration'}
                 }}
             ]
