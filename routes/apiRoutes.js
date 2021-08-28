@@ -43,12 +43,14 @@ router.get('/workouts/range', async (req, res) => {
 //Create a new workout
 router.post("/workouts", async (req, res) => {
     try {
-        let postResponse = await Workout.create(req.body);
-        console.log("Post Response", postResponse)
-        res.send(postResponse);
+        let newWorkout = await Workout.create(req.body);
+        res.send(newWorkout);
     } catch (error) {
         res.status(400).json(error);
     }
   });
+
+// Add an exercise to an existing workout
+
 
 module.exports = router;
