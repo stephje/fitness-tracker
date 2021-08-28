@@ -22,7 +22,7 @@ router.get('/workouts', async (req, res) => {
 
 //Get workouts in range
 // totalDuration had to be added because it's needed for the graphs on the dashboard (stats page)
-router.get('/range', async (req, res) => {
+router.get('/workouts/range', async (req, res) => {
     try {
         let lastSevenWorkouts = await db.Workout.aggregate(
             [
@@ -41,7 +41,7 @@ router.get('/range', async (req, res) => {
 });
 
 //Create a new workout
-router.post("/", async (req, res) => {
+router.post("/workouts", async (req, res) => {
     try {
         let newWorkout = await db.Workout.create(req.body);
         res.send(newWorkout);
@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
   });
 
 // Add an exercise to an existing workout
-router.put("/:id", async (req, res) => {
+router.put("/workouts/:id", async (req, res) => {
     try {
         let updatedWorkout = await db.Workout.updateOne(
             { '_id': req.params.id }, 
