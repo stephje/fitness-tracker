@@ -1,12 +1,12 @@
 const router = require("express").Router();
-const Workout = require("../models/Workout");
+const db = require("../models");
 
 // Get all workouts
 // This is used in the getLastWorkout function in /public/api.js
 // totalDuration had to be added because it's needed in the "Last Workout" section on the main page
 router.get('/workouts', async (req, res) => {
     try {
-        let workouts = await Workout.aggregate(
+        let workouts = await db.Workout.aggregate(
             [
                 {$match: {}},
                 {$addFields: {
@@ -22,9 +22,9 @@ router.get('/workouts', async (req, res) => {
 
 //Get workouts in range
 // totalDuration had to be added because it's needed for the graphs on the dashboard (stats page)
-router.get('/workouts/range', async (req, res) => {
+router.get('/range', async (req, res) => {
     try {
-        let lastSevenWorkouts = await Workout.aggregate(
+        let lastSevenWorkouts = await db.Workout.aggregate(
             [
                 {$match: {}},
                 {$sort: {day:-1}},
@@ -41,9 +41,9 @@ router.get('/workouts/range', async (req, res) => {
 });
 
 //Create a new workout
-router.post("/workouts", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
-        let newWorkout = await Workout.create(req.body);
+        let newWorkout = await db.Workout.create(req.body);
         res.send(newWorkout);
     } catch (error) {
         res.status(400).json(error);
@@ -51,6 +51,17 @@ router.post("/workouts", async (req, res) => {
   });
 
 // Add an exercise to an existing workout
-
+router.put("/:id", async (req, res) => {
+    try {
+        let updatedWorkout = await db.Workout.updateOne(
+            { '_id': req.params.id }, 
+            { $push: { '$exercises': req.body} }
+            );
+        console.log("Updated Workout", updatedWorkout)
+        res.json(updatedWorkout);
+    } catch (error) {
+        res.status(400).json(error);
+    }
+});
 
 module.exports = router;

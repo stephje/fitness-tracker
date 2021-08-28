@@ -6,10 +6,16 @@ const WorkoutSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    exercises: {
-        type: Schema.Types.ObjectId,
-        ref: "Exercise"
-    },
+    exercises: [
+        {
+            type: { type: String },
+            name: String,
+            duration: Number,
+            weight: Number,
+            reps: Number,
+            sets: Number,
+        }
+    ],
 });
 
 const Workout = model('workout', WorkoutSchema);
