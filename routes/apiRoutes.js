@@ -54,10 +54,9 @@ router.post("/workouts", async (req, res) => {
 router.put("/workouts/:id", async (req, res) => {
     try {
         let updatedWorkout = await db.Workout.updateOne(
-            { '_id': req.params.id }, 
-            { $push: { '$exercises': req.body} }
+            { _id: req.params.id }, 
+            { $push: { exercises: req.body} }
             );
-        console.log("Updated Workout", updatedWorkout)
         res.json(updatedWorkout);
     } catch (error) {
         res.status(400).json(error);
