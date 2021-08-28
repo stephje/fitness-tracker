@@ -14,6 +14,19 @@ router.get('/workouts', async (req, res) => {
     }
 });
 
+//Get workouts in range
+router.get('/workouts/range', async (req, res) => {
+    try {
+        //Get the last 7 workouts
+        let workouts = await Workout.find({}).sort({day:-1}).limit(7);
+        console.log(workouts);
+        return res.json(workouts);
+    } catch (error) {
+        res.status(400).json(error);
+    }
+});
+
+
 // Get workout by ID- may not be required?
 router.get('/workouts/:id', async (req, res) => {
         let workout = await Workout.find({ '_id': req.params.id });
