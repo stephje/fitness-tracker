@@ -16,7 +16,6 @@ function calculateTotalWeight(data) {
 }
 
 function populateChart(data) {
-  console.log(data);
   const durations = data.map(({ totalDuration }) => totalDuration);
   const pounds = calculateTotalWeight(data);
 
