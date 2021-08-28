@@ -1,13 +1,11 @@
 const router = require("express").Router();
 const Workout = require("../models/Workout");
 
-// API ROUTES HERE
-
-// Get all workouts. 
-// NOTE: This actually serves the fetch in the "getLastWorkout" function in /public/api.js file as well. All workouts are fetched in that function and then the last one in the array is returned. 
+// Get all workouts
+// This is used in the getLastWorkout function in /public/api.js
+// totalDuration had to be added because it's needed in the "Last Workout" section on the main page
 router.get('/workouts', async (req, res) => {
     try {
-        // This must be an aggregate because Total Workout Duration is expected on teh main page
         let workouts = await Workout.aggregate(
             [
                 {$match: {}},
@@ -23,6 +21,7 @@ router.get('/workouts', async (req, res) => {
 });
 
 //Get workouts in range
+// totalDuration had to be added because it's needed for the graphs on the dashboard (stats page)
 router.get('/workouts/range', async (req, res) => {
     try {
         let lastSevenWorkouts = await Workout.aggregate(
@@ -39,13 +38,6 @@ router.get('/workouts/range', async (req, res) => {
     } catch (error) {
         res.status(400).json(error);
     }
-});
-
-
-// Get workout by ID- may not be required?
-router.get('/workouts/:id', async (req, res) => {
-        let workout = await Workout.find({ '_id': req.params.id });
-        res.json(workout);
 });
 
 //Create a new workout
