@@ -8,6 +8,8 @@ Key features include:
 - Ability to log multiple exercises in a workout on a given day
 - Ability to track the name, type, weight, sets, reps and duration of exercise
 - If the exercise is a cardio exercise, includes the ability to track distance travelled
+
+Link to Deployed Application: [Fitness Tracker](https://stephje-fitness-tracker.herokuapp.com/)
    
 ## Table of Contents
   
